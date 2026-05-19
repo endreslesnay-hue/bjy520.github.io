@@ -1,0 +1,112 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="520 · 给乖卜卜小心肝">
+  <title>520 · 乖卜卜小心肝 ❤️</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <canvas id="petalCanvas" aria-hidden="true"></canvas>
+
+  <div id="musicHint" class="music-hint hidden" role="status">
+    <span>🎵 轻触屏幕，开启我们的旋律</span>
+  </div>
+
+  <main class="container" id="mainContent">
+    <header class="header fade-in" style="--delay: 0.2s">
+      <p class="date-badge">520 · 我爱你</p>
+      <h1 class="title">给 <span class="highlight name-her">乖卜卜小心肝</span></h1>
+      <p class="subtitle fade-in" style="--delay: 0.45s">无论相隔多远，你都是我的远方</p>
+    </header>
+
+    <section class="hero fade-in" style="--delay: 0.6s" aria-label="爱心与玫瑰">
+      <div class="rose-wrap" aria-hidden="true">
+        <svg class="rose" viewBox="0 0 120 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="roseGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#ff6b9d"/>
+              <stop offset="100%" stop-color="#c9184a"/>
+            </linearGradient>
+            <linearGradient id="leafGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#2d6a4f"/>
+              <stop offset="100%" stop-color="#52b788"/>
+            </linearGradient>
+          </defs>
+          <path class="stem" d="M60 95 Q55 140 58 195" stroke="#2d6a4f" stroke-width="4" fill="none"/>
+          <ellipse class="leaf leaf-left" cx="42" cy="130" rx="18" ry="8" fill="url(#leafGrad)" transform="rotate(-35 42 130)"/>
+          <ellipse class="leaf leaf-right" cx="78" cy="150" rx="16" ry="7" fill="url(#leafGrad)" transform="rotate(40 78 150)"/>
+          <g class="petals">
+            <ellipse cx="60" cy="55" rx="22" ry="28" fill="url(#roseGrad)" opacity="0.9" transform="rotate(-15 60 55)"/>
+            <ellipse cx="60" cy="55" rx="20" ry="26" fill="url(#roseGrad)" opacity="0.95" transform="rotate(20 60 55)"/>
+            <ellipse cx="60" cy="55" rx="18" ry="24" fill="#e63946" transform="rotate(45 60 55)"/>
+            <circle cx="60" cy="58" r="8" fill="#9d0208"/>
+          </g>
+        </svg>
+      </div>
+
+      <button id="heartBtn" class="heart-btn" type="button" aria-label="点击爱心，查看隐藏情话" title="点我 ❤️">
+        <svg class="heart-svg" viewBox="0 0 100 90" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="heartGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#ff8fab"/>
+              <stop offset="50%" stop-color="#ff4d6d"/>
+              <stop offset="100%" stop-color="#c9184a"/>
+            </linearGradient>
+            <filter id="glow">
+              <feGaussianBlur stdDeviation="2" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <path class="heart-path" d="M50 88 C20 60, 0 40, 0 25 C0 8, 15 0, 30 5 C40 8, 50 18, 50 18 C50 18, 60 8, 70 5 C85 0, 100 8, 100 25 C100 40, 80 60, 50 88Z" fill="url(#heartGrad)" filter="url(#glow)"/>
+        </svg>
+        <span class="heart-pulse-ring" aria-hidden="true"></span>
+        <span class="heart-pulse-ring ring-2" aria-hidden="true"></span>
+      </button>
+      <p class="tap-hint fade-in" style="--delay: 1.2s">轻触爱心，有惊喜 ✨</p>
+    </section>
+
+    <!-- 表白信：逐段渐显，读完后再展示贴纸墙 -->
+    <article class="letter" id="loveLetter" aria-label="表白信">
+      <p class="letter-line">乖卜卜小心肝，</p>
+      <p class="letter-line">
+        相隔千里，屏幕却装不下我对你的想念。每一个清晨醒来，第一个想到的是你；每一个夜晚入睡前，最后一句晚安也是说给你听。
+      </p>
+      <p class="letter-line">
+        距离让我们更珍惜每一次通话、每一条消息、每一次视频里你笑起来的样子。我愿意等，也愿意走——无论多远，心始终朝向<strong class="name-her">乖卜卜小心肝</strong>。
+      </p>
+      <p class="letter-line signature">
+        520，我想认真地告诉你：<strong>我爱你</strong>。<br>
+        愿未来的每一天，都能牵着你的手，不再只是「异地」。
+      </p>
+      <p class="letter-line from">—— 永远爱你的大王</p>
+    </article>
+
+    <footer class="actions" id="footerActions">
+      <button id="surpriseBtn" class="btn-surprise" type="button">🌹 翻开我们的小秘密</button>
+    </footer>
+  </main>
+
+  <dialog id="secretModal" class="secret-modal" aria-labelledby="secretTitle">
+    <div class="modal-inner">
+      <button class="modal-close" type="button" aria-label="关闭">&times;</button>
+      <h2 id="secretTitle">写给乖卜卜小心肝的悄悄话</h2>
+      <ul id="secretList" class="secret-list"></ul>
+    </div>
+  </dialog>
+
+  <div id="surpriseOverlay" class="surprise-overlay hidden" aria-hidden="true">
+    <div class="floating-hearts" aria-hidden="true"></div>
+    <p class="surprise-text">乖卜卜小心肝<br><span>无论相隔多远，你都是我的归处</span></p>
+    <button id="closeSurprise" class="btn-close-surprise" type="button">收下这份心意 💕</button>
+  </div>
+
+  <script src="music.js"></script>
+  <script src="stickers.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
