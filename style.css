@@ -1,0 +1,810 @@
+/* ============================================
+   520 表白页 · 样式表
+   主色调：粉、玫瑰红；温馨浪漫风格
+   ============================================ */
+
+/* --- CSS 变量：主题色与间距 --- */
+:root {
+  --pink-light: #fff0f3;
+  --pink-mid: #ffccd5;
+  --pink-deep: #ff8fab;
+  --rose: #ff4d6d;
+  --crimson: #c9184a;
+  --wine: #800f2f;
+  --text: #590d22;
+  --text-soft: #9d4edd;
+  --glass: rgba(255, 255, 255, 0.75);
+  --shadow: rgba(201, 24, 74, 0.25);
+  --font-display: "Ma Shan Zheng", "KaiTi", "STKaiti", serif;
+  --font-body: "Noto Serif SC", "Songti SC", "SimSun", serif;
+  --max-width: 520px;
+  --radius: 16px;
+}
+
+/* --- 全局重置与基础 --- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100dvh;
+  font-family: var(--font-body);
+  color: var(--text);
+  background: linear-gradient(
+    165deg,
+    var(--pink-light) 0%,
+    #ffe5ec 35%,
+    #ffb3c6 70%,
+    #ff758f 100%
+  );
+  background-attachment: fixed;
+  overflow-x: hidden;
+  line-height: 1.75;
+}
+
+/* 背景柔光圆斑 */
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.45;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body::before {
+  width: 280px;
+  height: 280px;
+  background: #ff8fab;
+  top: -80px;
+  right: -60px;
+  animation: floatOrb 12s ease-in-out infinite;
+}
+
+body::after {
+  width: 220px;
+  height: 220px;
+  background: #c9184a;
+  bottom: 10%;
+  left: -50px;
+  animation: floatOrb 15s ease-in-out infinite reverse;
+}
+
+@keyframes floatOrb {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(20px, 30px) scale(1.08); }
+}
+
+/* 花瓣画布（全屏底层） */
+#petalCanvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* --- 音乐提示条 --- */
+.music-hint {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 12px 16px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--wine);
+  background: linear-gradient(90deg, var(--pink-mid), var(--pink-light));
+  box-shadow: 0 2px 12px var(--shadow);
+  animation: slideDown 0.5s ease;
+  cursor: pointer;
+}
+
+.music-hint.hidden {
+  display: none;
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* --- 主容器 --- */
+.container {
+  position: relative;
+  z-index: 2;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 24px 20px 48px;
+}
+
+/* --- 渐显动画（通过 --delay 控制延迟） --- */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 1s ease forwards;
+  animation-delay: var(--delay, 0s);
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- 页头 --- */
+.header {
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.date-badge {
+  display: inline-block;
+  padding: 6px 18px;
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  color: var(--crimson);
+  background: var(--glass);
+  border-radius: 999px;
+  border: 1px solid var(--pink-mid);
+  margin-bottom: 12px;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 8vw, 2.75rem);
+  font-weight: 400;
+  color: var(--wine);
+  text-shadow: 0 2px 8px rgba(255, 77, 109, 0.3);
+}
+
+.title .highlight {
+  color: var(--rose);
+  position: relative;
+}
+
+.title .highlight::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 2px;
+  width: 100%;
+  height: 8px;
+  background: var(--pink-mid);
+  opacity: 0.6;
+  z-index: -1;
+  border-radius: 4px;
+}
+
+.subtitle {
+  margin-top: 8px;
+  font-size: 0.95rem;
+  color: var(--crimson);
+  opacity: 0.88;
+  letter-spacing: 0.08em;
+}
+
+.name-her {
+  color: var(--rose);
+  font-weight: 600;
+}
+
+/* --- 主体：玫瑰 + 爱心 --- */
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 16px 0 24px;
+  min-height: 280px;
+}
+
+.rose-wrap {
+  position: relative;
+  margin-bottom: -40px;
+  z-index: 1;
+  animation: roseSway 4s ease-in-out infinite;
+}
+
+@keyframes roseSway {
+  0%, 100% { transform: rotate(-2deg); }
+  50% { transform: rotate(2deg); }
+}
+
+.rose {
+  width: clamp(70px, 22vw, 100px);
+  height: auto;
+  filter: drop-shadow(0 4px 12px var(--shadow));
+}
+
+.rose .stem {
+  stroke-dasharray: 120;
+  stroke-dashoffset: 120;
+  animation: drawStem 2s ease forwards 0.5s;
+}
+
+@keyframes drawStem {
+  to { stroke-dashoffset: 0; }
+}
+
+.rose .leaf-left {
+  transform-origin: 42px 130px;
+  animation: leafFlutter 3s ease-in-out infinite;
+}
+
+.rose .leaf-right {
+  transform-origin: 78px 150px;
+  animation: leafFlutter 3s ease-in-out infinite 0.5s;
+}
+
+@keyframes leafFlutter {
+  0%, 100% { transform: rotate(-35deg) scale(1); }
+  50% { transform: rotate(-30deg) scale(1.05); }
+}
+
+.rose .petals {
+  animation: bloom 1.5s ease forwards;
+  transform-origin: 60px 55px;
+}
+
+@keyframes bloom {
+  from { transform: scale(0.3); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* 爱心按钮 */
+.heart-btn {
+  position: relative;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 16px;
+  z-index: 2;
+  transition: transform 0.3s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.heart-btn:hover,
+.heart-btn:focus-visible {
+  transform: scale(1.08);
+  outline: none;
+}
+
+.heart-btn:active {
+  transform: scale(0.95);
+}
+
+.heart-btn.clicked {
+  animation: heartBeat 0.6s ease;
+}
+
+@keyframes heartBeat {
+  0%, 100% { transform: scale(1); }
+  25% { transform: scale(1.2); }
+  50% { transform: scale(0.95); }
+  75% { transform: scale(1.1); }
+}
+
+.heart-svg {
+  width: clamp(120px, 40vw, 160px);
+  height: auto;
+  display: block;
+  animation: heartPulse 1.4s ease-in-out infinite;
+  filter: drop-shadow(0 8px 20px rgba(201, 24, 74, 0.4));
+}
+
+@keyframes heartPulse {
+  0%, 100% { transform: scale(1); }
+  14% { transform: scale(1.06); }
+  28% { transform: scale(1); }
+  42% { transform: scale(1.08); }
+  70% { transform: scale(1); }
+}
+
+/* 爱心外圈脉动波纹 */
+.heart-pulse-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 140px;
+  height: 140px;
+  margin: -70px 0 0 -70px;
+  border: 2px solid var(--rose);
+  border-radius: 50%;
+  opacity: 0;
+  animation: pulseRing 2s ease-out infinite;
+  pointer-events: none;
+}
+
+.heart-pulse-ring.ring-2 {
+  animation-delay: 1s;
+}
+
+@keyframes pulseRing {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}
+
+.tap-hint {
+  margin-top: 4px;
+  font-size: 0.85rem;
+  color: var(--crimson);
+  opacity: 0.85;
+  animation: hintBlink 2.5s ease-in-out infinite;
+}
+
+@keyframes hintBlink {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* --- 表白信（逐行渐显） --- */
+.letter {
+  background: var(--glass);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: var(--radius);
+  padding: 24px 22px;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 8px 32px var(--shadow);
+  opacity: 0;
+  animation: fadeInUp 0.8s ease 1.8s forwards;
+}
+
+.letter-line {
+  margin-bottom: 14px;
+  font-size: clamp(0.95rem, 3.8vw, 1.05rem);
+  text-indent: 2em;
+  color: var(--text);
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.letter-line.letter-line--shown {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.letter-line:first-child {
+  text-indent: 0;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  color: var(--crimson);
+}
+
+.letter-line.signature {
+  text-indent: 0;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px dashed var(--pink-mid);
+  line-height: 2;
+}
+
+.letter-line.signature strong {
+  color: var(--rose);
+  font-size: 1.15em;
+  font-weight: 600;
+}
+
+.letter-line.from {
+  text-align: right;
+  text-indent: 0;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  color: var(--wine);
+  margin-bottom: 0;
+}
+
+/* --- 底部按钮 --- */
+.actions {
+  margin-top: 28px;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.actions.actions--visible {
+  opacity: 1;
+}
+
+.btn-surprise {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  padding: 14px 28px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--rose), var(--crimson));
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 6px 20px var(--shadow);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.btn-surprise:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(201, 24, 74, 0.4);
+}
+
+.btn-surprise:active {
+  transform: translateY(0);
+}
+
+/* --- 隐藏情话弹窗（dialog） --- */
+.secret-modal {
+  border: none;
+  padding: 0;
+  max-width: min(90vw, 380px);
+  border-radius: var(--radius);
+  background: transparent;
+  box-shadow: none;
+}
+
+.secret-modal::backdrop {
+  background: rgba(89, 13, 34, 0.45);
+  backdrop-filter: blur(4px);
+}
+
+.secret-modal[open] {
+  animation: modalIn 0.4s ease;
+}
+
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.modal-inner {
+  position: relative;
+  padding: 28px 24px;
+  background: linear-gradient(180deg, #fff5f7, #ffe5ec);
+  border-radius: var(--radius);
+  border: 2px solid var(--pink-mid);
+  box-shadow: 0 16px 48px var(--shadow);
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  font-size: 1.5rem;
+  line-height: 1;
+  background: none;
+  border: none;
+  color: var(--crimson);
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.modal-close:hover {
+  opacity: 1;
+}
+
+.modal-inner h2 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--wine);
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.secret-list {
+  list-style: none;
+}
+
+.secret-list li {
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--pink-mid);
+  font-size: 0.95rem;
+  opacity: 0;
+  animation: secretLineIn 0.5s ease forwards;
+}
+
+.secret-list li:last-child {
+  border-bottom: none;
+}
+
+/* 逐条显示情话（通过 JS 设置 animation-delay） */
+@keyframes secretLineIn {
+  from {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* --- 全屏惊喜层 --- */
+.surprise-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 240, 243, 0.97) 0%,
+    rgba(255, 117, 143, 0.92) 100%
+  );
+  transition: opacity 0.5s ease;
+}
+
+.surprise-overlay.hidden {
+  display: none;
+  pointer-events: none;
+}
+
+.surprise-overlay.visible {
+  display: flex;
+  animation: overlayFade 0.6s ease;
+}
+
+@keyframes overlayFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.floating-hearts {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.floating-hearts .mini-heart {
+  position: absolute;
+  font-size: 1.2rem;
+  opacity: 0;
+  animation: floatUp 4s ease-in forwards;
+}
+
+@keyframes floatUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.5);
+  }
+  15% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-100vh) scale(1.2) rotate(15deg);
+  }
+}
+
+.surprise-text {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 7vw, 2.5rem);
+  color: var(--wine);
+  line-height: 1.6;
+  animation: surpriseTextIn 1s ease 0.3s both;
+}
+
+.surprise-text span {
+  display: block;
+  margin-top: 8px;
+  color: var(--crimson);
+  font-size: 1.15em;
+}
+
+@keyframes surpriseTextIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.btn-close-surprise {
+  position: relative;
+  z-index: 2;
+  margin-top: 36px;
+  padding: 12px 32px;
+  font-size: 1rem;
+  color: var(--wine);
+  background: #fff;
+  border: 2px solid var(--rose);
+  border-radius: 999px;
+  cursor: pointer;
+  animation: surpriseTextIn 0.8s ease 0.8s both;
+}
+
+/* --- 响应式：平板与手机 --- */
+@media (max-width: 380px) {
+  .container {
+    padding: 16px 14px 36px;
+  }
+
+  .letter {
+    padding: 18px 16px;
+  }
+
+  .heart-pulse-ring {
+    width: 110px;
+    height: 110px;
+    margin: -55px 0 0 -55px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding-top: 40px;
+  }
+
+  .hero {
+    min-height: 320px;
+  }
+}
+
+/* --- 情话贴纸墙 --- */
+.sticker-wall {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+.sticker-wall--visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+body.sticker-mode #mainContent {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.8s ease;
+}
+
+body.sticker-mode #petalCanvas {
+  opacity: 0.35;
+}
+
+.sticker {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 14px;
+  box-sizing: border-box;
+  transform: rotate(var(--rot, 0deg)) scale(0.6);
+  opacity: 0;
+  will-change: transform, opacity;
+  animation: stickerPop 0.55s cubic-bezier(0.34, 1.4, 0.64, 1) forwards;
+  animation-delay: var(--delay, 0ms);
+  box-shadow: 0 4px 16px rgba(201, 24, 74, 0.18);
+}
+
+@keyframes stickerPop {
+  to {
+    opacity: 1;
+    transform: rotate(var(--rot, 0deg)) scale(1);
+  }
+}
+
+.sticker__text {
+  font-family: var(--font-display);
+  font-size: clamp(0.85rem, 2.8vw, 1.05rem);
+  line-height: 1.45;
+  text-align: center;
+  color: var(--wine);
+  word-break: break-word;
+}
+
+/* 贴纸款式 */
+.sticker--note {
+  background: linear-gradient(145deg, #fff9fb, #ffe5ec);
+  border-radius: 4px 14px 14px 14px;
+  border: 1px solid var(--pink-mid);
+}
+
+.sticker--note::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  width: 36px;
+  height: 14px;
+  margin-left: -18px;
+  background: rgba(255, 204, 213, 0.75);
+  transform: rotate(-2deg);
+}
+
+.sticker--heart {
+  background: #fff5f7;
+  border-radius: 50% 50% 50% 8px;
+  border: 2px solid var(--rose);
+}
+
+.sticker--tag {
+  background: linear-gradient(180deg, #ffccd5, #ffb3c6);
+  border-radius: 8px 8px 12px 12px;
+  clip-path: polygon(0 0, 100% 0, 100% 88%, 50% 100%, 0 88%);
+  padding-bottom: 16px;
+}
+
+.sticker--polaroid {
+  background: #fff;
+  border: 3px solid #fff;
+  border-bottom: 14px solid #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08), 0 6px 20px var(--shadow);
+  border-radius: 2px;
+}
+
+.sticker--ribbon {
+  background: linear-gradient(135deg, #fff0f3, #ffc2d1);
+  border-radius: 10px;
+  border-left: 4px solid var(--crimson);
+}
+
+.sticker--round {
+  background: radial-gradient(circle at 30% 30%, #fff, #ffccd5);
+  border-radius: 50%;
+  border: 1px dashed var(--rose);
+}
+
+/* 减少动态效果（无障碍） */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .fade-in,
+  .letter {
+    opacity: 1;
+    transform: none;
+  }
+
+  .letter-line {
+    opacity: 1;
+    transform: none;
+  }
+
+  .sticker {
+    opacity: 1;
+    transform: rotate(var(--rot, 0deg)) scale(1);
+    animation: none;
+  }
+}
